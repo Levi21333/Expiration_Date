@@ -48,6 +48,7 @@ fun LoginScreen() {
             //TextField Password
             //TextField Confirm Password
             //Button 'Login' -> Product View
+            //Something new
         }
     }
 }
