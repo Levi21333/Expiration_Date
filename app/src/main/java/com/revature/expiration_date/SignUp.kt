@@ -21,6 +21,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
+import com.revature.expiration_date.datamodels.User
 import com.revature.expiration_date.ui.theme.Expiration_DateTheme
 import com.revature.expiration_date.viewmodels.UserViewModel
 
@@ -79,8 +80,7 @@ fun SignUpScreen(userViewModel: UserViewModel) {
                 visualTransformation = PasswordVisualTransformation()
             )
             Button(onClick = {
-
-
+                userViewModel.insertUser(User(email = email,name = username,password = password))
             }) {
                Text(text = "Sign Up")
             }
