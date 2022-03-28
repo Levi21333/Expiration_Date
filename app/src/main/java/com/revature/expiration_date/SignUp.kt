@@ -20,11 +20,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import com.revature.expiration_date.ui.theme.Expiration_DateTheme
+import com.revature.expiration_date.viewmodels.UserViewModel
 
-class Login : ComponentActivity() {
+class SignUp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         setContent {
             Expiration_DateTheme {
                 // A surface container using the 'background' color from the theme
@@ -32,7 +36,7 @@ class Login : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+                    SignUpScreen(userViewModel)
                 }
             }
         }
@@ -40,17 +44,24 @@ class Login : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen() {
+fun SignUpScreen(userViewModel: UserViewModel) {
 
     Column {
         TopAppBar() {
-            Text(text = "Login Screen")
+            Text(text = "Sign Up Screen")
         }
         Column(
             Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+
+            var email by rememberSaveable{ mutableStateOf("")}
+            TextField(value = email,
+                modifier = Modifier.padding(16.dp),
+                onValueChange = {email = it},
+                placeholder = { Text(text = "Username")}
+            )
             //TextField Username
             var username by rememberSaveable{ mutableStateOf("")}
             TextField(value = username,
@@ -69,8 +80,9 @@ fun LoginScreen() {
             )
             Button(onClick = {
 
+
             }) {
-               Text(text = "Login")
+               Text(text = "Sign Up")
             }
 
             //TextField Confirm Password
@@ -80,10 +92,10 @@ fun LoginScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview2() {
-    Expiration_DateTheme {
-        LoginScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview41() {
+//    Expiration_DateTheme {
+//        SignUpScreen(userViewModel)
+//    }
+//}
