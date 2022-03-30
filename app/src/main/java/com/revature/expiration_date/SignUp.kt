@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.revature.expiration_date.datamodels.User
@@ -48,7 +47,7 @@ class SignUp : ComponentActivity() {
 fun SignUpScreen(userViewModel: UserViewModel) {
 
     Column {
-        TopAppBar() {
+        TopAppBar {
             Text(text = "Sign Up Screen")
         }
         Column(
@@ -80,13 +79,16 @@ fun SignUpScreen(userViewModel: UserViewModel) {
                 visualTransformation = PasswordVisualTransformation()
             )
             Button(onClick = {
-                userViewModel.insertUser(User(email = email,name = username,password = password))
+                userViewModel.insertUser(User(
+                    email = email,
+                    name = username,
+                    password = password)
+                )
             }) {
                Text(text = "Sign Up")
             }
 
-            //TextField Confirm Password
-            //Button 'Login' -> Product View
+
 
         }
     }

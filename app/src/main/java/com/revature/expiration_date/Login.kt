@@ -1,6 +1,8 @@
 package com.revature.expiration_date
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +18,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.revature.expiration_date.datamodels.User
 import com.revature.expiration_date.ui.theme.Expiration_DateTheme
 
 class Login : ComponentActivity() {
@@ -32,7 +36,7 @@ class Login : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    LoginScreen()
+//                    LoginScreen()
                 }
             }
         }
@@ -40,8 +44,9 @@ class Login : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(userList:List<User>) {
 
+    val context = LocalContext.current
     Column {
         TopAppBar() {
             Text(text = "Login Screen")
@@ -59,19 +64,26 @@ fun LoginScreen() {
                 placeholder = { Text(text = "Username")}
             )
             //TextField Password
-            var password by rememberSaveable { mutableStateOf("")}
-            TextField(value = password,
+            var word by rememberSaveable { mutableStateOf("")}
+            TextField(value = word,
                 modifier = Modifier.padding(16.dp),
-                onValueChange = {password = it},
+                onValueChange = {word = it},
                 placeholder = {Text(text = "Password")},
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = PasswordVisualTransformation()
             )
             Button(onClick = {
-
+                userList.forEach { user ->  
+                    if (username.equals(user.name) && word.equals(user.password)){
+                        context.startActivity(Intent(context,ProductView::class.java))
+                    }else{
+                        Toast.makeText(context,"Invalid username or password",Toast.LENGTH_SHORT).show()
+                    }
+                }
             }) {
                Text(text = "Login")
             }
+
 
             //TextField Confirm Password
             //Button 'Login' -> Product View
@@ -80,10 +92,10 @@ fun LoginScreen() {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview2() {
-    Expiration_DateTheme {
-        LoginScreen()
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview2() {
+//    Expiration_DateTheme {
+//        LoginScreen()
+//    }
+//}
