@@ -46,6 +46,10 @@ class Login : ComponentActivity() {
 @Composable
 fun LoginScreen(userList:List<User>) {
 
+    //Should I make an object of User (user:User)
+    //I have a feeling that an empty mutableList will not work even though it is initializing it
+//    val list:List<User> = mutableListOf()
+
     val context = LocalContext.current
     Column {
         TopAppBar() {
@@ -72,8 +76,9 @@ fun LoginScreen(userList:List<User>) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = PasswordVisualTransformation()
             )
+            //Can I treat an object like a list?
             Button(onClick = {
-                userList.forEach { user ->  
+                userList.forEach { user ->
                     if (username.equals(user.name) && word.equals(user.password)){
                         context.startActivity(Intent(context,ProductView::class.java))
                     }else{
