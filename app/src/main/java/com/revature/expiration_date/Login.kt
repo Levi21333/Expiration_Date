@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -23,12 +24,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
 import com.revature.expiration_date.datamodels.User
 import com.revature.expiration_date.ui.theme.Expiration_DateTheme
+import com.revature.expiration_date.viewmodels.UserViewModel
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val userViewModel =ViewModelProvider(this).get(UserViewModel::class.java)
         setContent {
             Expiration_DateTheme {
                 // A surface container using the 'background' color from the theme
@@ -36,7 +41,7 @@ class Login : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    LoginScreen()
+                    LoginScreen(userViewModel)
                 }
             }
         }
@@ -44,11 +49,9 @@ class Login : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(userList:List<User>) {
+fun LoginScreen(userViewModel: UserViewModel) {
 
-    //Should I make an object of User (user:User)
-    //I have a feeling that an empty mutableList will not work even though it is initializing it
-//    val list:List<User> = mutableListOf()
+    val userList = userViewModel.readAllData().observeAsState(arrayListOf())
 
     val context = LocalContext.current
     Column {
@@ -78,7 +81,8 @@ fun LoginScreen(userList:List<User>) {
             )
             //Can I treat an object like a list?
             Button(onClick = {
-                userList.forEach { user ->
+                val holder =userList.value
+                holder.forEach { user ->
                     if (username.equals(user.name) && word.equals(user.password)){
                         context.startActivity(Intent(context,ProductView::class.java))
                     }else{
@@ -88,10 +92,6 @@ fun LoginScreen(userList:List<User>) {
             }) {
                Text(text = "Login")
             }
-
-
-            //TextField Confirm Password
-            //Button 'Login' -> Product View
 
         }
     }
