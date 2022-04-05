@@ -51,6 +51,7 @@ class Login : ComponentActivity() {
 @Composable
 fun LoginScreen(userViewModel: UserViewModel) {
 
+    //This is initialization
     val userList = userViewModel.readAllData().observeAsState(arrayListOf())
 
     val context = LocalContext.current
